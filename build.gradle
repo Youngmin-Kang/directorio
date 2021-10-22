@@ -1,0 +1,38 @@
+def YEAR_WEEK = new Date().format("yymm").toInteger()
+def DAY = new Date().format("u").toInteger()
+def HOUR_MINUTE = new Date().format("HHmm").toInteger()
+
+//The Timestamp
+def BUILD_TIMESTAMP = 100000 * YEAR_WEEK +10000 * DAY + HOUR_MINUTE
+
+def MAJOR = 1
+def MINOR = 0
+def PATCH = BUILD_TIMESTAMP
+
+// Name of animals
+def BUILD_VERSION = "Avestruz-${MAJOR}.${MINOR}.${PATCH}"
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.0.3"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    ext.buildTimestamp = BUILD_TIMESTAMP
+    ext.buildVersion = BUILD_VERSION
+    logger.lifecycle("Compling version: ${BUILD_VERSION} with timestamp: ${BUILD_TIMESTAMP}.")
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
